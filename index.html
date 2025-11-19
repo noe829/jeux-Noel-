@@ -14,21 +14,42 @@
  .success{ color:green; font-weight:bold; }
  .error{ color:red; }
 </style>
+<audio id="bgmusic" src="https://cdn.pixabay.com/download/audio/2022/12/07/audio_4acddafccb.mp3?filename=jingle-bells-background-127448.mp3" autoplay loop></audio>
+<script>
+window.addEventListener('click',()=>{document.getElementById('bgmusic').play();},{once:true});
+</script>
 </head>
-<body>
+<body style="background:url('https://cdn.pixabay.com/photo/2017/12/17/18/31/christmas-3026688_1280.jpg') center/cover fixed;">
+<style>
+.section img{width:100%;border-radius:12px;margin-bottom:15px;}
+</style>
+<script>
+// Countdown per day
+function unlockDays(){
+ const today=new Date();
+ const start=new Date(today.getFullYear(),11,1); // 1 Dec
+ const diff=Math.floor((today-start)/86400000)+1;
+ for(let i=1;i<=5;i++){
+   const btn=document.getElementById('btn'+i);
+   if(diff>=i) btn.disabled=false;
+ }
+}
+window.onload=unlockDays;
+</script>
 <h1>🎄 Jeu de Piste de Noël 🎅</h1>
 <p>Bienvenue dans le jeu de piste de Noël ! Complète chaque jour pour avancer.</p>
 
 <!-- Navigation -->
-<button onclick="show('j1')">Jour 1</button>
-<button onclick="show('j2')">Jour 2</button>
-<button onclick="show('j3')">Jour 3</button>
-<button onclick="show('j4')">Jour 4</button>
-<button onclick="show('j5')">Jour 5</button>
+<button id="btn1" onclick="show('j1')">Jour 1</button>
+<button id="btn2" onclick="show('j2')" disabled>Jour 2</button>
+<button id="btn3" onclick="show('j3')" disabled>Jour 3</button>
+<button id="btn4" onclick="show('j4')" disabled>Jour 4</button>
+<button id="btn5" onclick="show('j5')" disabled>Jour 5</button>
 
 <!-- JOUR 1 -->
 <div id="j1" class="section">
 <h2>Jour 1 – L'Énigme d'ouverture</h2>
+<img src="https://cdn.pixabay.com/photo/2016/11/29/05/08/christmas-tree-1869902_640.jpg" />
 <p>Qui est l'être barbu préféré des enfants, qui passe parfois par la cheminée ?</p>
 <input id="r1" placeholder="Ta réponse...">
 <p id="f1"></p>
@@ -38,6 +59,7 @@
 <!-- JOUR 2 -->
 <div id="j2" class="section">
 <h2>Jour 2 – Les lieux mystères</h2>
+<img src="https://cdn.pixabay.com/photo/2020/12/13/17/07/snowman-5828648_640.jpg" />
 <p>Énigme : Je suis l'endroit où tout le monde passe en arrivant. Que suis-je ?</p>
 <input id="r2" placeholder="Ta réponse...">
 <p id="f2"></p>
@@ -47,6 +69,7 @@
 <!-- JOUR 3 -->
 <div id="j3" class="section">
 <h2>Jour 3 – Puzzle & message codé</h2>
+<img src="https://cdn.pixabay.com/photo/2016/11/29/12/54/santa-claus-1869381_640.jpg" />
 <p>Message codé : 🎄❄️🦌🦌❄️✨ – Quel est le mot ?</p>
 <input id="r3" placeholder="Ta réponse...">
 <p id="f3"></p>
@@ -56,6 +79,7 @@
 <!-- JOUR 4 -->
 <div id="j4" class="section">
 <h2>Jour 4 – Le Cadeau Mystère</h2>
+<img src="https://cdn.pixabay.com/photo/2017/12/01/13/00/christmas-2995437_640.jpg" />
 <p>Énigme : Mot mélangé « REV ». Remets-le en ordre.</p>
 <input id="r4" placeholder="Ta réponse..."><p id="f4"></p>
 <button onclick="checkContains('r4','REVE','f4')">Vérifier</button>
@@ -64,6 +88,7 @@
 <!-- JOUR 5 -->
 <div id="j5" class="section">
 <h2>Jour 5 – Le Défi des Sens</h2>
+<img src="https://cdn.pixabay.com/photo/2017/11/20/17/30/santa-claus-2968484_640.jpg" />
 <p>Indice : Parfum chaud, sucré, épicé. Qui suis‑je ?</p>
 <input id="r5" placeholder="Ta réponse..."><p id="f5"></p>
 <button onclick="checkContains('r5','CANNELLE','f5')">Vérifier</button>
