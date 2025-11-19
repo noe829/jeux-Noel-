@@ -36,6 +36,10 @@ function unlockDays(){
 }
 window.onload=unlockDays;
 </script>
+<div id="countdown" style="font-size:20px;font-weight:bold;margin-bottom:10px;color:#b30000;"></div>
+<div style="background:#ffe6e6;width:100%;height:20px;border-radius:10px;overflow:hidden;margin-bottom:20px;">
+ <div id="progressbar" style="background:#b30000;height:100%;width:0%;transition:width 0.6s;"></div>
+</div>
 <h1>🎄 Jeu de Piste de Noël 🎅</h1>
 <p>Bienvenue dans le jeu de piste de Noël ! Complète chaque jour pour avancer.</p>
 
@@ -102,6 +106,44 @@ function normalize(t){ return t.trim().toUpperCase().replace(/[ÉÈÊË]/g,'E').
 function check(id,correct,fid){ let v=normalize(document.getElementById(id).value); if(v===normalize(correct)){ document.getElementById(fid).innerHTML='<span class="success">✔ Bonne réponse !</span>'; } else { document.getElementById(fid).innerHTML='<span class="error">❌ Mauvaise réponse</span>'; }}
 
 function checkContains(id,correct,fid){ let v=normalize(document.getElementById(id).value); if(v.includes(normalize(correct))){ document.getElementById(fid).innerHTML='<span class="success">✔ Bonne réponse !</span>'; } else { document.getElementById(fid).innerHTML='<span class="error">❌ Essaie encore</span>'; }}
+</script>
+<script>
+let progress = JSON.parse(localStorage.getItem('progress')) || 0;
+updateProgress();
+
+function updateProgress(){
+ document.getElementById('progressbar').style.width = progress + '%';
+}
+
+function addProgress(amount){
+ progress = Math.min(100, progress + amount);
+ localStorage.setItem('progress', JSON.stringify(progress));
+ updateProgress();
+ alert('🎉 Bravo ! Vous avez complété ' + progress + '% du jeu !');
+}
+
+// Hook success events
+function onSuccess(fid){ addProgress(20); document.getElementById(fid).innerHTML='<span class="success">✔ Bonne réponse !</span>'; }
+
+// Override check
+const oldCheck = check;
+check = function(id,correct,fid){ let v=normalize(document.getElementById(id).value); if(v===normalize(correct)){ onSuccess(fid);} else { document.getElementById(fid).innerHTML='<span class="error">❌ Mauvaise réponse</span>'; }}
+
+// Override checkContains
+const oldCheckContains = checkContains;
+checkContains = function(id,correct,fid){ let v=normalize(document.getElementById(id).value); if(v.includes(normalize(correct))){ onSuccess(fid);} else { document.getElementById(fid).innerHTML='<span class="error">❌ Essaie encore</span>'; }}
+
+// Countdown
+function updateCountdown(){
+ const now=new Date();
+ const nextDay=new Date(now.getFullYear(),11, now.getDate()+1,0,0,0);
+ const diff=nextDay-now;
+ const h=Math.floor(diff/3600000);
+ const m=Math.floor((diff%3600000)/60000);
+ const s=Math.floor((diff%60000)/1000);
+ document.getElementById('countdown').innerText='🕒 Prochaine énigme dans : '+h+'h '+m+'m '+s+'s';
+}
+setInterval(updateCountdown,1000);
 </script>
 </body>
 </html>
