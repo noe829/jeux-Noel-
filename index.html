@@ -14,6 +14,10 @@
  .success{ color:green; font-weight:bold; }
  .error{ color:red; }
 </style>
+
+<script>
+window.addEventListener('click',()=>{document.getElementById('bgmusic').play();},{once:true});
+</script>
 <audio id="bgmusic" src="https://cdn.pixabay.com/download/audio/2022/12/07/audio_4acddafccb.mp3?filename=jingle-bells-background-127448.mp3" autoplay loop></audio>
 <script>
 window.addEventListener('click',()=>{document.getElementById('bgmusic').play();},{once:true});
@@ -135,12 +139,12 @@ checkContains = function(id,correct,fid){ let v=normalize(document.getElementByI
 
 // Countdown
 function updateCountdown(){
- const now=new Date();
- const nextDay=new Date(now.getFullYear(),11, now.getDate()+1,0,0,0);
- const diff=nextDay-now;
- const h=Math.floor(diff/3600000);
- const m=Math.floor((diff%3600000)/60000);
- const s=Math.floor((diff%60000)/1000);
+ const now = new Date();
+ const next = new Date(now.getTime() + 24*3600000);
+ const diff = next - now;
+ const h = Math.floor(diff/3600000);
+ const m = Math.floor((diff%3600000)/60000);
+ const s = Math.floor((diff%60000)/1000);
  document.getElementById('countdown').innerText='🕒 Prochaine énigme dans : '+h+'h '+m+'m '+s+'s';
 }
 setInterval(updateCountdown,1000);
