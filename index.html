@@ -22,6 +22,16 @@ window.addEventListener('click',()=>{document.getElementById('bgmusic').play();}
 <script>
 window.addEventListener('click',()=>{document.getElementById('bgmusic').play();},{once:true});
 </script>
+<audio id="bgmusic" autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/12/07/audio_4acddafccb.mp3?filename=jingle-bells-background-127448.mp3" type="audio/mpeg">
+</audio>
+<script>
+document.addEventListener("click", function() {
+    const audio = document.getElementById('bgmusic');
+    audio.volume = 0.4;
+    audio.play().catch(e => console.log("Autoplay bloqué :", e));
+}, { once: true });
+</script>
 </head>
 <body style="background:url('https://cdn.pixabay.com/photo/2017/12/17/18/31/christmas-3026688_1280.jpg') center/cover fixed;">
 <style>
@@ -30,13 +40,19 @@ window.addEventListener('click',()=>{document.getElementById('bgmusic').play();}
 <script>
 // Countdown per day
 function unlockDays(){
- const today=new Date();
- const start=new Date(today.getFullYear(),11,1); // 1 Dec
- const diff=Math.floor((today-start)/86400000)+1;
- for(let i=1;i<=5;i++){
-   const btn=document.getElementById('btn'+i);
-   if(diff>=i) btn.disabled=false;
+ const now = new Date();
+ const unlockDates = [
+   new Date('2025-11-22T00:00:00'), // Jour 1
+   new Date('2025-11-29T00:00:00'), // Jour 2
+   new Date('2025-12-06T00:00:00'), // Jour 3
+   new Date('2025-12-14T00:00:00'), // Jour 4
+   new Date('2025-12-21T00:00:00')  // Jour 5
+ ];
+ for(let i=0;i<5;i++){
+   const btn = document.getElementById('btn'+(i+1));
+   if(now >= unlockDates[i]) btn.disabled = false;
  }
+}
 }
 window.onload=unlockDays;
 </script>
